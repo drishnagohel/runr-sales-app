@@ -139,13 +139,21 @@ export const addUser = async (data) => {
   return response.data;
 };
 export const getAllUser = async () => {
-  const response = await axios.post(`${API_URL}/listuser`);
+  const response = await axios.post(`${API_URL_SALES}/getallusers`);
   return response.data; // contains {status, count, data}
 };
-export const updateUser = async (data) => {
-  const response = await axios.post(`${API_URL}/updateuser`, data);
+
+// export const updateUser = async (data) => {
+//   const response = await axios.post(`${API_URL_SALES}/updateuser`, data);
+//   return response.data;
+// };
+
+export const updateUser = async (user_id, data) => {
+  const payload = { ...data, user_id }; // include user_id in payload
+  const response = await axios.post(`${API_URL_SALES}/updateuser`, payload);
   return response.data;
 };
+
 export const deleteUser = async (data) => {
   const response = await axios.post(`${API_URL}/deleteuser`, data);
   return response.data;

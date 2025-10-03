@@ -38,6 +38,9 @@ export function getDateTab(date, tooltitle, extra = "") {
   );
 }
 
+export function notifyuser(type, message) {
+    $.notify(message,type);
+  };
 
 export function Textcapitalize(string = "") {
   if (!string) return "";

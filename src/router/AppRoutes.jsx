@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Admin pages
 import AdminDashboard from "../admin/pages/Dashboard";
 import AdminMasterPage from "../admin/pages/MasterPage";
+import AdminUserProfile from "../admin/pages/UserProfile";
 import AdminLogin from "../admin/pages/Login";
 import AdminProject from "../admin/pages/Sales/SalesTable";
 import AdminPincode from "../admin/pages/Masters/Pincode/PincodeTable";
@@ -47,6 +48,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdminLead />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/userprofile"
+          element={
+            <ProtectedRoute>
+              <AdminUserProfile />
             </ProtectedRoute>
           }
         />
