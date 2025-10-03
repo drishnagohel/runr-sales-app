@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminDashboard from "../admin/pages/Dashboard";
 import AdminMasterPage from "../admin/pages/MasterPage";
 import AdminLogin from "../admin/pages/Login";
-import AdminProject from "../admin/pages/Project/ProjectsTable";
+import AdminProject from "../admin/pages/Sales/SalesTable";
 import AdminPincode from "../admin/pages/Masters/Pincode/PincodeTable";
 import AdminAmenityCategory from "../admin/pages/Masters/AmenityCategory/AmenityCategoryTable";
 import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";

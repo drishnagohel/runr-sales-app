@@ -469,6 +469,22 @@ export const getAllRole = async () => {
   }
 };
 
+export const getAllSalesParson = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/getallconfigurationtype`);
+    const result = response.data;
+
+    if (result.status === 200) {
+      return result.data; // assume it's already JSON
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching roles:", error);
+    return [];
+  }
+};
+
 export const TotalCount = async (data) => {
   const response = await axios.post(`${API_URL}/count`, data);
   return response.data;
