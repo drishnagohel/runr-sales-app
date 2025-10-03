@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BudgetRow from "../Budget/BudgetRow";
+import CreatorTable from "../Creator/CreatorTable";
 import MasterLayout from "../../../components/layout/MasterLayout";
 import Pagination from "../../../components/Pagination";
 import { getAllBudget ,  addBudget} from "../../../../api";
@@ -131,7 +131,7 @@ const currentBudget = filteredBudget; // ✅ now maps filtered results
                     </thead>
                     <tbody>
                       {currentBudget.map((p) => (
-                        <BudgetRow
+                        <CreatorTable
                           key={p.id || p.budget_id}
                           project={p}
                           refreshDate={fetchBudget}

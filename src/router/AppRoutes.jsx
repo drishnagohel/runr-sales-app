@@ -7,6 +7,7 @@ import AdminLogin from "../admin/pages/Login";
 import AdminProject from "../admin/pages/Project/ProjectsTable";
 import AdminPincode from "../admin/pages/Masters/Pincode/PincodeTable";
 import AdminAmenityCategory from "../admin/pages/Masters/AmenityCategory/AmenityCategoryTable";
+import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";
 import AdminBudget from "../admin/pages/Masters/Budget/BudgetTable";
 import AdminLead from "../admin/pages/Lead/LeadTable";
 // import AdminUsers from "../admin/pages/Users";
@@ -28,6 +29,7 @@ export default function AppRoutes() {
           {/* Website Routes */}
           <Route path="/pincodes" element={<AdminPincode />} />
           <Route path="/amenitycategory" element={<AdminAmenityCategory />} />
+          <Route path="/creator" element={<AdminCreator />} />
           <Route path="/budget" element={<AdminBudget />} />
         
 
