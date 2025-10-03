@@ -1,0 +1,213 @@
+@media screen and (max-width: 1599px) {
+    .col-master {
+        width: 20%;
+        flex: 0 0 20%;
+    }
+}
+
+@media screen and (min-width: 1217px) {
+
+    .theme-menu-close-button,
+    .theme-menu-toggle-res {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1216px) {
+    .menu-fixed .theme-wrapper {
+        margin-left: 0;
+    }
+
+    .theme-menu-wrapper {
+        left: -320px;
+        transition: all 0.3s linear;
+    }
+
+    .theme-menu-wrapper.menu-active {
+        left: 0;
+    }
+
+    .theme-wrapper {
+        margin: 0;
+    }
+
+    footer {
+        left: 0;
+    }
+
+    .theme-menu-close-button {
+        position: absolute;
+        bottom: 22px;
+        right: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        z-index: 9;
+        color: #ffffff;
+        border: 1px solid rgb(255 255 255 / 10%);
+        box-shadow: var(--box-shadow);
+        border-radius: 50%;
+    }
+
+    .theme-menu-toggle {
+        display: none;
+    }
+
+    .theme-menu-close-button:hover {
+        background-color: rgb(255 255 255 / 10%);
+        color: #ffffff;
+    }
+
+    .theme-menu-wrapper {
+        max-width: var(--menu-width) !important;
+    }
+
+    .theme-menu-wrapper:not(:hover) .theme-menu-logo-default {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .theme-menu-logo-minimize {
+        opacity: 0;
+    }
+
+    .theme-menu-wrapper:not(:hover) .menu-title,
+    .theme-menu-wrapper:not(:hover) .menu-arrow,
+    .theme-menu-wrapper:not(:hover) .menu-bullet,
+    .theme-menu-wrapper:not(:hover) .tag {
+        opacity: 1;
+    }
+
+    .dashboard-desc h3 {
+        font-size: 36px;
+        margin-bottom: 4px;
+    }
+
+    .dashboard-detail {
+        gap: 12px;
+    }
+
+    .dashboard-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    h1,
+    .h1 {
+        font-size: 42px;
+    }
+
+    h2,
+    .h2 {
+        font-size: 30px;
+    }
+
+    h3,
+    .h3 {
+        font-size: 24px;
+    }
+
+    h4,
+    .h4 {
+        font-size: 18px;
+    }
+
+    h5,
+    .h5 {
+        font-size: 16px;
+    }
+
+    h6,
+    .h6 {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .col-master {
+        width: 25%;
+        flex: 0 0 25%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .theme-wrapper,
+    .authentication-wrapper,
+    .authentication-bg {
+        display: block !important;
+    }
+
+    .show-mobile {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .theme-wrapper,
+    .authentication-wrapper,
+    .authentication-bg {
+        display: none !important;
+    }
+
+    .show-mobile {
+        position: fixed;
+        display: flex !important;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        font-size: 24px;
+        font-weight: 500;
+        text-align: center;
+        background-color: var(--primary-color);
+        color: #ffffff;
+        z-index: 999999;
+    }
+}
+
+@media screen and (min-height: 481px) and (orientation: landscape) {
+
+    .theme-wrapper,
+    .authentication-wrapper,
+    .authentication-bg {
+        display: block !important;
+    }
+
+    .show-mobile {
+        display: none !important;
+    }
+}
+
+@media screen and (max-height: 480px) and (orientation: landscape) {
+
+    .theme-wrapper,
+    .authentication-wrapper,
+    .authentication-bg {
+        display: none !important;
+    }
+
+    .show-mobile {
+        position: fixed;
+        display: flex !important;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        font-size: 24px;
+        font-weight: 500;
+        text-align: center;
+        background-color: var(--primary-color);
+        color: #ffffff;
+        z-index: 999999;
+    }
+}
