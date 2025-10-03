@@ -58,7 +58,7 @@ export default function ProjectRow({ project, refreshDate }) {
   
   const handleDelete = async () => {
   try {
-    const result = await deleteBudget({ guid: project.guid });
+    const result = await deleteBudget({ budget_id: project.budget_id });
     if (result.status === 200) {   
       if (refreshDate && typeof refreshDate === "function") {
         refreshDate(); // refresh parent table

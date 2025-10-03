@@ -48,7 +48,7 @@ const Login = () => {
             </div>
           </div>
           <div class="column is-12 col-form">
-            <a class="btn btn-primary w-100" href="index.php">Login</a>
+            <a class="btn btn-primary w-100" href="dashboard">Login</a>
           </div>
         </div>
       </div>

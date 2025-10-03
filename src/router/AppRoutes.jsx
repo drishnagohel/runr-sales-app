@@ -22,7 +22,7 @@ export default function AppRoutes() {
         {/* Admin Routes */}
         <Route path="/dashboard" element={<AdminDashboard />} />
         <Route path="/masters" element={<AdminMasterPage />} />
-        <Route path="/login" element={<AdminLogin />} />        
+        <Route path="/" element={<AdminLogin />} />        
         <Route path="/project" element={<AdminProject />} />
         <Route path="/lead" element={<AdminLead />} />
           {/* Website Routes */}

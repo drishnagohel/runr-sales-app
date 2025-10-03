@@ -59,6 +59,37 @@ export default function ProjectsTable() {
     }
    };
 
+   const handleAdd = async (e) => {
+    e.preventDefault();
+    if (!newTitle) return;
+
+    const formData = new FormData();
+    formData.append("project_title", newTitle);
+    formData.append("project_status", status);
+    formData.append("project_type_id", projectTypeId)
+    alert("thumbImage",thumbImage)
+    if (thumbImage) formData.append("project_thumbmail_image", thumbImage);
+  if (featuredImage) formData.append("project_featured_image", featuredImage);
+
+    try {
+      const result = await addProject(formData); // API should handle multipart/form-data
+      if (result && result.status) {
+        setIsAddOpen(false);
+        setNewTitle("");
+        setThumbImage(null);
+        setFeaturedImage(null);
+        setStatus("Ongoing");
+        setCurrentPage(1);
+        fetchProjects();
+      } else {
+        alert("Failed to add project.");
+      }
+    } catch (error) {
+      console.error("Error adding project:", error);
+      alert("Something went wrong.");
+    }
+  };
+  
 
   return (
     <>

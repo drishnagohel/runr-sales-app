@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import BudgetRow from "../Budget/BudgetRow";
 import MasterLayout from "../../../components/layout/MasterLayout";
 import Pagination from "../../../components/Pagination";
-import { getAllBudget } from "../../../../api";
+import { getAllBudget ,  addBudget} from "../../../../api";
 
 export default function BudgetTable() {
 
@@ -58,19 +58,19 @@ const currentBudget = filteredBudget; // ✅ now maps filtered results
       setCurrentPage(page); 
     }
    };
-
+   
   return (
     <>
       <MasterLayout>        
         <div className="px-5 py-4">
           <div className="is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
             <div className="card-title">
-              <h1 className="fs-5 fw-600 lh-1">Amenity Categories</h1>
+              <h1 className="fs-5 fw-600 lh-1">SMM</h1>
               <ul className="breadcrumbs mt-1">
                 <li>
                   <a href="/masters">Masters</a>
                 </li>
-                <li className="active">Amenity Categories</li>
+                <li className="active">SMM</li>
               </ul>
             </div>
             <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
