@@ -10,32 +10,78 @@ import AdminAmenityCategory from "../admin/pages/Masters/AmenityCategory/Amenity
 import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";
 import AdminBudget from "../admin/pages/Masters/Budget/BudgetTable";
 import AdminLead from "../admin/pages/Lead/LeadTable";
-// import AdminUsers from "../admin/pages/Users";
-
-// Website pages
-// import Home from "../website/pages/Home";
-// import About from "../website/pages/About";
+import ProtectedRoute from "../admin/components/ProtectedRoute"; // adjust path
 
 export default function AppRoutes() {
   return (
     <Router>
       <Routes>
         {/* Admin Routes */}
-        <Route path="/dashboard" element={<AdminDashboard />} />
-        <Route path="/masters" element={<AdminMasterPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/masters"
+          element={
+            <ProtectedRoute>
+              <AdminMasterPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<AdminLogin />} />        
-        <Route path="/project" element={<AdminProject />} />
-        <Route path="/lead" element={<AdminLead />} />
-          {/* Website Routes */}
-          <Route path="/pincodes" element={<AdminPincode />} />
-          <Route path="/amenitycategory" element={<AdminAmenityCategory />} />
-          <Route path="/creator" element={<AdminCreator />} />
-          <Route path="/budget" element={<AdminBudget />} />
-        
-
-        {/* Website Routes */}
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} /> */}
+        <Route
+          path="/project"
+          element={
+            <ProtectedRoute>
+              <AdminProject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lead"
+          element={
+            <ProtectedRoute>
+              <AdminLead />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pincodes"
+          element={
+            <ProtectedRoute>
+              <AdminPincode />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/amenitycategory"
+          element={
+            <ProtectedRoute>
+              <AdminAmenityCategory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/creator"
+          element={
+            <ProtectedRoute>
+              <AdminCreator />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/budget"
+          element={
+            <ProtectedRoute>
+              <AdminBudget />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

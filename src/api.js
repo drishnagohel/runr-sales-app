@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost/kohinoor-group-portal/api";
+const API_URL_SALES = "http://localhost/runr_sales/api";
 
 
 // Add configuration
@@ -18,6 +19,10 @@ export const updateConfiguration = async (data) => {
 };
 export const deleteConfiguration = async (data) => {
   const response = await axios.post(`${API_URL}/deleteconfiguration`, data);
+  return response.data;
+};
+export const login = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/login`, data);
   return response.data;
 };
 
