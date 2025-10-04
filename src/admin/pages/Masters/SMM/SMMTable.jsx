@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import MasterLayout from "../../../components/layout/MasterLayout";
 import Pagination from "../../../components/Pagination";
 import {
-  getAllSalesperson,
-  addSalesperson,
-  updateSalesperson,
-  deleteSalesperson,
+  getAllSMM,
+  addSMM,
+  updateSMM,
+  deleteSMM,
 } from "../../../../api";
 import { getDateTab ,getNameAvtarSingle,capitalizeFirstLetter} from "../../../../utils";
 
-export default function SalesPersonTable() {
-  const [salespersons, setSalespersons] = useState([]);
+export default function SMMTable() {
+  const [salespersons, setSMM] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -33,18 +33,18 @@ export default function SalesPersonTable() {
     setLoading(true);
     try {
       const offset = (currentPage - 1) * itemsPerPage;
-      const result = await getAllSalesperson(offset, itemsPerPage, search);
+      const result = await getAllSMM(offset, itemsPerPage, search);
 
       if (result?.status && Array.isArray(result.data)) {
-        setSalespersons(result.data);
+        setSMM(result.data);
         setTotalCount(result.count || 0);
       } else {
-        setSalespersons([]);
+        setSMM([]);
         setTotalCount(0);
       }
     } catch (error) {
-      console.error("Error fetching Sales Persons:", error);
-      setSalespersons([]);
+      console.error("Error fetching SMMs:", error);
+      setSMM([]);
       setTotalCount(0);
     } finally {
       setLoading(false);
@@ -62,12 +62,12 @@ export default function SalesPersonTable() {
   const handleSave = async (formData) => {
     try {
       let result;
-      if (formData.person_id) {
+      if (formData.salesmanger_id) {
         // update
-        result = await updateSalesperson(formData);
+        result = await updateSMM(formData);
       } else {
         // add
-        result = await addSalesperson(formData);
+        result = await addSMM(formData);
       }
 
       if (result.status) {
@@ -75,10 +75,10 @@ export default function SalesPersonTable() {
         setEditingPerson(null);
         fetchSalesPerson();
       } else {
-        alert("Failed to save Sales Person");
+        alert("Failed to save SMM");
       }
     } catch (error) {
-      console.error("Error saving Sales Person:", error);
+      console.error("Error saving SMM:", error);
       alert("Something went wrong!");
     }
   };
@@ -86,16 +86,16 @@ export default function SalesPersonTable() {
   const handleDelete = async () => {
     try {
       if (!deletePerson) return;
-      const result = await deleteSalesperson({ person_id: deletePerson.person_id });
+      const result = await deleteSMM({ salesmanger_id: deletePerson.salesmanger_id });
       if (result.status === 200 || result.status === true) {
         setIsDeleteOpen(false);
         setDeletePerson(null);
         fetchSalesPerson();
       } else {
-        alert("Failed to delete Sales Person");
+        alert("Failed to delete SMM");
       }
     } catch (error) {
-      console.error("Error deleting Sales Person:", error);
+      console.error("Error deleting SMM:", error);
     }
   };
 
@@ -104,12 +104,12 @@ export default function SalesPersonTable() {
       <div className="px-5 py-4">
         <div className="is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
           <div className="card-title">
-            <h1 className="fs-5 fw-600 lh-1">Sales Person</h1>
+            <h1 className="fs-5 fw-600 lh-1">SMM</h1>
             <ul className="breadcrumbs mt-1">
               <li>
                 <a href="/masters">Masters</a>
               </li>
-              <li className="active">Sales Person</li>
+              <li className="active">SMM</li>
             </ul>
           </div>
           <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
@@ -159,25 +159,25 @@ export default function SalesPersonTable() {
                   </thead>
                   <tbody>
                     {salespersons.map((person) => (
-                      <tr key={person.person_id}>                       
-                        <td>{person.person_id}</td>
+                      <tr key={person.salesmanger_id}>                       
+                        <td>{person.salesmanger_id}</td>
                          <td>
                           <div className="tag-rounded-wrapper">
                             <div className="tag-rounded tag-rounded-gray">
                               <span className="avatar avatar-md mw-unset">
-                                {getNameAvtarSingle(person?.person_name || "-")}
+                                {getNameAvtarSingle(person?.salesmanger_name || "-")}
                               </span>
                               <div>
                                 <b>
-                                  {capitalizeFirstLetter(person.person_name) || "-"}{" "}
+                                  {capitalizeFirstLetter(person.salesmanger_name) || "-"}{" "}
                                   {/* {capitalizeFirstLetter(person.last_name) || "-"} */}
                                 </b>
                               </div>
                             </div>
                           </div>
                         </td>                        
-                        <td>{person.person_mobile}</td>
-                        <td>{person.person_email}</td>
+                        <td>{person.salesmanger_mobile}</td>
+                        <td>{person.salesmanger_email}</td>
                         <td>
                           <div className="theme-date-list">
                             {getDateTab(person.created_at, "Created At")}
@@ -285,10 +285,10 @@ export default function SalesPersonTable() {
 /* ---------------- Form Component ---------------- */
 const SalesPersonForm = ({ initialData, onClose, onSave }) => {
   const [form, setForm] = useState({
-    person_id: initialData?.person_id || null,
-    person_name: initialData?.person_name || "",
-    person_mobile: initialData?.person_mobile || "",
-    person_email: initialData?.person_email || "",
+    salesmanger_id: initialData?.salesmanger_id || null,
+    salesmanger_name: initialData?.salesmanger_name || "",
+    salesmanger_mobile: initialData?.salesmanger_mobile || "",
+    salesmanger_email: initialData?.salesmanger_email || "",
   });
 
   const handleChange = (e) => {
@@ -305,7 +305,7 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
       <div className="theme-sidebar-card">
         <div className="theme-sidebar-header">
           <h5 className="theme-sidebar-title">
-            {form.person_id ? "Edit Sales Person" : "Add Sales Person"}
+            {form.salesmanger_id ? "Edit SMM" : "Add SMM"}
           </h5>
           <div className="theme-sidebar-action">
             <span className="close-sidebar" onClick={onClose}>
@@ -322,9 +322,9 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Name*</label>
                   <input
                     type="text"
-                    name="person_name"
+                    name="salesmanger_name"
                     className="form-control"
-                    value={form.person_name}
+                    value={form.salesmanger_name}
                     onChange={handleChange}
                     required
                   />
@@ -333,9 +333,9 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Mobile*</label>
                   <input
                     type="text"
-                    name="person_mobile"
+                    name="salesmanger_mobile"
                     className="form-control"
-                    value={form.person_mobile}
+                    value={form.salesmanger_mobile}
                     onChange={handleChange}
                      maxLength={10}
                      minLength={10}
@@ -346,16 +346,16 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Email*</label>
                   <input
                     type="email"
-                    name="person_email"
+                    name="salesmanger_email"
                     className="form-control"
-                    value={form.person_email}
+                    value={form.salesmanger_email}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="column is-12 col-form">
                   <button className="btn btn-primary w-100" type="submit">
-                    {form.person_id ? "Save Changes" : "Add"}
+                    {form.salesmanger_id ? "Save Changes" : "Add"}
                   </button>
                 </div>
               </div>

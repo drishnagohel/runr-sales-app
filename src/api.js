@@ -56,6 +56,7 @@ export const deleteCreator = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/deletecreator`, data);
   return response.data;
 };
+
 // Add Salesperson
 export const addSalesperson = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/addsalesperson`, data);
@@ -83,6 +84,36 @@ export const updateSalesperson = async (data) => {
 };
 export const deleteSalesperson = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/deletesalesperson`, data);
+  return response.data;
+};
+
+// Add SMM
+export const addSMM = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/addsalesmanager`, data);
+  return response.data;
+};
+
+export const getAllSMM = async (offset = 0, limit = 5, search = "") => {
+  try {
+    const response = await axios.post(`${API_URL_SALES}/getallsalesmanager`, {
+      offset,
+      limit,
+      search,
+    });
+
+    return response.data; 
+  } catch (error) {
+    console.error("API Error:", error);
+    return { status: false, data: [], count: 0 };
+  }
+};
+
+export const updateSMM = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/updatesalesmanager`, data);
+  return response.data;
+};
+export const deleteSMM = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/deletesalesmanager`, data);
   return response.data;
 };
 
