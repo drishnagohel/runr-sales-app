@@ -9,6 +9,7 @@
     getAllSalesParson,
     getAllParson,
     getAllCreatorDropdown,
+    getAllClientDropdown,
   } from "../../../api";
   import { getDateTab, getNameAvtarSingle, capitalizeFirstLetter } from "../../../utils";
 
@@ -19,6 +20,7 @@
     const [projectTypes, setProjectTypes] = useState([]);
     const [parsonName, setPasronName] = useState([]);
     const [creatorName, setCreatorName] = useState([]);
+    const [clientName, setClientName] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [totalCount, setTotalCount] = useState(0);
@@ -34,6 +36,7 @@
       fetchProjectTypes();
       fetchParsonName();
       fetchCreatorName();
+      fetchClientName();
     }, [currentPage, search]);
 
     const fetchProjectTypes = async () => {
@@ -56,6 +59,14 @@
       try {
         const types = await getAllCreatorDropdown();
         if (Array.isArray(types)) setCreatorName(types);
+      } catch (err) {
+        console.error("Error fetching project types:", err);
+      }
+    };
+    const fetchClientName = async () => {
+      try {
+        const types = await getAllClientDropdown();
+        if (Array.isArray(types)) setClientName(types);
       } catch (err) {
         console.error("Error fetching project types:", err);
       }
@@ -357,6 +368,7 @@
             projectTypes={projectTypes}
             parsonName={parsonName}
             creatorName={creatorName}
+            clientName={clientName}
             onClose={() => {
               setIsFormOpen(false);
               setEditingPerson(null);
@@ -380,12 +392,13 @@
   }
 
   /* ---------------- Form Component ---------------- */
-  const SalesPersonForm = ({ initialData, projectTypes,parsonName,creatorName, onClose, onSave }) => {
+  const SalesPersonForm = ({ initialData, projectTypes,parsonName,creatorName,clientName, onClose, onSave }) => {
    const [form, setForm] = useState({
       sales_details_id: initialData?.sales_details_id || null,
       smm: initialData?.smm || "",
       sales_person: initialData?.sales_person || "",
       creator: initialData?.creator || "",
+      client: initialData?.client || "",
       sales_date: initialData?.sales_date
         ? new Date(initialData.sales_date).toLocaleDateString('en-CA')
         : "",
@@ -466,6 +479,23 @@
                       {creatorName.map((pt) => (
                         <option key={pt.creator_id} value={pt.creator_id}>
                           {pt.creator_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="column is-12 col-form">
+                    <label className="form-label">Select Client*</label>
+                    <select
+                      name="client"
+                      className="form-control"
+                      value={form.client}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select Creator</option>
+                      {clientName.map((pt) => (
+                        <option key={pt.client_id} value={pt.client_id}>
+                          {pt.client_name}
                         </option>
                       ))}
                     </select>

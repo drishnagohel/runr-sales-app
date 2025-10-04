@@ -43,7 +43,7 @@ export default function ClientTable() {
         setTotalCount(0);
       }
     } catch (error) {
-      console.error("Error fetching Sales Persons:", error);
+      console.error("Error fetching Client:", error);
       setClient([]);
       setTotalCount(0);
     } finally {
@@ -62,7 +62,7 @@ export default function ClientTable() {
   const handleSave = async (formData) => {
     try {
       let result;
-      if (formData.person_id) {
+      if (formData.client_id) {
         // update
         result = await updateClient(formData);
       } else {
@@ -75,10 +75,10 @@ export default function ClientTable() {
         setEditingPerson(null);
         fetchSalesPerson();
       } else {
-        alert("Failed to save Sales Person");
+        alert("Failed to save Client");
       }
     } catch (error) {
-      console.error("Error saving Sales Person:", error);
+      console.error("Error saving Client:", error);
       alert("Something went wrong!");
     }
   };
@@ -86,16 +86,16 @@ export default function ClientTable() {
   const handleDelete = async () => {
     try {
       if (!deletePerson) return;
-      const result = await deleteClient({ person_id: deletePerson.person_id });
+      const result = await deleteClient({ client_id: deletePerson.client_id });
       if (result.status === 200 || result.status === true) {
         setIsDeleteOpen(false);
         setDeletePerson(null);
         fetchSalesPerson();
       } else {
-        alert("Failed to delete Sales Person");
+        alert("Failed to delete Client");
       }
     } catch (error) {
-      console.error("Error deleting Sales Person:", error);
+      console.error("Error deleting Client:", error);
     }
   };
 
@@ -104,12 +104,12 @@ export default function ClientTable() {
       <div className="px-5 py-4">
         <div className="is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
           <div className="card-title">
-            <h1 className="fs-5 fw-600 lh-1">Sales Person</h1>
+            <h1 className="fs-5 fw-600 lh-1">Client</h1>
             <ul className="breadcrumbs mt-1">
               <li>
                 <a href="/masters">Masters</a>
               </li>
-              <li className="active">Sales Person</li>
+              <li className="active">Client</li>
             </ul>
           </div>
           <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
@@ -159,25 +159,25 @@ export default function ClientTable() {
                   </thead>
                   <tbody>
                     {salespersons.map((person) => (
-                      <tr key={person.person_id}>                       
-                        <td>{person.person_id}</td>
+                      <tr key={person.client_id}>                       
+                        <td>{person.client_id}</td>
                          <td>
                           <div className="tag-rounded-wrapper">
                             <div className="tag-rounded tag-rounded-gray">
                               <span className="avatar avatar-md mw-unset">
-                                {getNameAvtarSingle(person?.person_name || "-")}
+                                {getNameAvtarSingle(person?.client_name || "-")}
                               </span>
                               <div>
                                 <b>
-                                  {capitalizeFirstLetter(person.person_name) || "-"}{" "}
+                                  {capitalizeFirstLetter(person.client_name) || "-"}{" "}
                                   {/* {capitalizeFirstLetter(person.last_name) || "-"} */}
                                 </b>
                               </div>
                             </div>
                           </div>
                         </td>                        
-                        <td>{person.person_mobile}</td>
-                        <td>{person.person_email}</td>
+                        <td>{person.client_mobile}</td>
+                        <td>{person.client_email}</td>
                         <td>
                           <div className="theme-date-list">
                             {getDateTab(person.created_at, "Created At")}
@@ -285,10 +285,10 @@ export default function ClientTable() {
 /* ---------------- Form Component ---------------- */
 const SalesPersonForm = ({ initialData, onClose, onSave }) => {
   const [form, setForm] = useState({
-    person_id: initialData?.person_id || null,
-    person_name: initialData?.person_name || "",
-    person_mobile: initialData?.person_mobile || "",
-    person_email: initialData?.person_email || "",
+    client_id: initialData?.client_id || null,
+    client_name: initialData?.client_name || "",
+    client_mobile: initialData?.client_mobile || "",
+    client_email: initialData?.client_email || "",
   });
 
   const handleChange = (e) => {
@@ -305,7 +305,7 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
       <div className="theme-sidebar-card">
         <div className="theme-sidebar-header">
           <h5 className="theme-sidebar-title">
-            {form.person_id ? "Edit Sales Person" : "Add Sales Person"}
+            {form.client_id ? "Edit Client" : "Add Client"}
           </h5>
           <div className="theme-sidebar-action">
             <span className="close-sidebar" onClick={onClose}>
@@ -322,9 +322,9 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Name*</label>
                   <input
                     type="text"
-                    name="person_name"
+                    name="client_name"
                     className="form-control"
-                    value={form.person_name}
+                    value={form.client_name}
                     onChange={handleChange}
                     required
                   />
@@ -333,9 +333,9 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Mobile*</label>
                   <input
                     type="text"
-                    name="person_mobile"
+                    name="client_mobile"
                     className="form-control"
-                    value={form.person_mobile}
+                    value={form.client_mobile}
                     onChange={handleChange}
                      maxLength={10}
                      minLength={10}
@@ -346,16 +346,16 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
                   <label className="form-label">Email*</label>
                   <input
                     type="email"
-                    name="person_email"
+                    name="client_email"
                     className="form-control"
-                    value={form.person_email}
+                    value={form.client_email}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="column is-12 col-form">
                   <button className="btn btn-primary w-100" type="submit">
-                    {form.person_id ? "Save Changes" : "Add"}
+                    {form.client_id ? "Save Changes" : "Add"}
                   </button>
                 </div>
               </div>

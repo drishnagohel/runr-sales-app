@@ -280,6 +280,22 @@ export const getAllCreatorDropdown = async () => {
   }
 };
 
+export const getAllClientDropdown = async () => {
+  try {
+    const response = await axios.post(`${API_URL_SALES}/getallclient`);
+    const result = response.data;
+
+    if (result.status === 200) {
+      return result.data; 
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching roles:", error);
+    return [];
+  }
+};
+
 
 export const TotalCount = async (data) => {
   const response = await axios.post(`${API_URL}/count`, data);
