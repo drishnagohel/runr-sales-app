@@ -181,8 +181,8 @@
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Sales Manager</th>
-                        <th>Person</th>
+                        <th>Social Media Manager</th>
+                        <th>Sales Person</th>
                         <th>Creator</th>
                         <th>Client</th>
                         <th>Sales Date</th>
@@ -433,7 +433,7 @@
               <div className="theme-sidebar-content theme-scrollbar">
                 <div className="columns is-multiline">                  
                   <div className="column is-12 col-form">
-                    <label className="form-label">Sales Manager*</label>
+                    <label className="form-label">Social Marketing Manager*</label>
                     <select
                       className="form-control"
                        name="smm"
@@ -441,7 +441,7 @@
                         onChange={handleChange}
                         required
                     >
-                      <option value="">Select Sales Manager</option>
+                      <option value="">Select Marketing Manager</option>
                       {projectTypes.map((pt) => (
                         <option key={pt.salesmanger_id} value={pt.salesmanger_id}>
                           {pt.salesmanger_name}

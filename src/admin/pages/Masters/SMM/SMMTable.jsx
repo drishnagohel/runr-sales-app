@@ -104,12 +104,12 @@ export default function SMMTable() {
       <div className="px-5 py-4">
         <div className="is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
           <div className="card-title">
-            <h1 className="fs-5 fw-600 lh-1">SMM</h1>
+            <h1 className="fs-5 fw-600 lh-1">Social Marketing Manager</h1>
             <ul className="breadcrumbs mt-1">
               <li>
                 <a href="/masters">Masters</a>
               </li>
-              <li className="active">SMM</li>
+              <li className="active">Social Marketing Manager</li>
             </ul>
           </div>
           <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
@@ -305,7 +305,7 @@ const SalesPersonForm = ({ initialData, onClose, onSave }) => {
       <div className="theme-sidebar-card">
         <div className="theme-sidebar-header">
           <h5 className="theme-sidebar-title">
-            {form.salesmanger_id ? "Edit SMM" : "Add SMM"}
+            {form.salesmanger_id ? "Edit Social Marketing Manager" : "Add Social Marketing Manager"}
           </h5>
           <div className="theme-sidebar-action">
             <span className="close-sidebar" onClick={onClose}>
