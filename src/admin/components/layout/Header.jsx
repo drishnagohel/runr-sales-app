@@ -55,20 +55,16 @@ export default function Header() {
         </a>
 
         {/* Marquee */}
-        <marquee
+        {/* <marquee
           className="marquee-text"
           direction="left"
           behavior="scroll"
           scrollAmount="8"
         >
           <span>
-            Lorem ipsum dolor sit amet, <b>consectetur adipiscing</b> elit.
-            Fusce nec tristique diam. Sed laoreet metus in efficitur feugiat.{" "}
-            <b>Mauris in turpis</b> et nisi tempus ultrices. Morbi lobortis, ex
-            sed tincidunt suscipit, dolor urna sollicitudin nulla,{" "}
-            <b>consectetur venenatis</b> quam leo quis orci.
+           
           </span>
-        </marquee>
+        </marquee> */}
 
         {/* Right side dropdowns */}
         <div className="is-flex is-align-items-center is-gap-2">

@@ -136,12 +136,12 @@
         {/* Header */}
         <div className="px-5 py-4 is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
           <div className="card-title">
-            <h1 className="fs-5 fw-600 lh-1">Sales Detile</h1>
+            <h1 className="fs-5 fw-600 lh-1">Sales Detail</h1>
             <ul className="breadcrumbs mt-1">
               <li>
                 <a href="/masters">Masters</a>
               </li>
-              <li className="active">Sales Detile</li>
+              <li className="active">Sales Detail</li>
             </ul>
           </div>
           <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
@@ -420,7 +420,7 @@
         <div className="theme-sidebar-card">
           <div className="theme-sidebar-header">
             <h5 className="theme-sidebar-title">
-              {form.sales_details_id ? "Edit Sales Person" : "Add Sales Detile"}
+              {form.sales_details_id ? "Edit Sales Person" : "Add Sales Detail"}
             </h5>
             <div className="theme-sidebar-action">
               <span className="close-sidebar" onClick={onClose}>
