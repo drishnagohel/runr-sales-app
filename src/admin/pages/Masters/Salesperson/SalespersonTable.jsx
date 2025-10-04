@@ -1,41 +1,50 @@
 import React, { useState, useEffect } from "react";
 import MasterLayout from "../../../components/layout/MasterLayout";
 import Pagination from "../../../components/Pagination";
-import { getAllBudget, updateBudget, deleteBudget } from "../../../../api";
-import { getDateTab } from "../../../../utils";
+import {
+  getAllSalesperson,
+  addSalesperson,
+  updateSalesperson,
+  deleteSalesperson,
+} from "../../../../api";
+import { getDateTab ,getNameAvtarSingle,capitalizeFirstLetter} from "../../../../utils";
 
-export default function CreatorTable() {
-  const [Budget, setBudget] = useState([]);
-  const [isAddOpen, setIsAddOpen] = useState(false);
+export default function SalesPersonTable() {
+  const [salespersons, setSalespersons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [totalCount, setTotalCount] = useState(0);
 
+  // Sidebar State
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingPerson, setEditingPerson] = useState(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletePerson, setDeletePerson] = useState(null);
+
   useEffect(() => {
-    fetchBudget();
+    fetchSalesPerson();
   }, [currentPage, search]);
 
-  const fetchBudget = async () => {
+  const fetchSalesPerson = async () => {
     setLoading(true);
     try {
       const offset = (currentPage - 1) * itemsPerPage;
-      const result = await getAllBudget(offset, itemsPerPage, search);
+      const result = await getAllSalesperson(offset, itemsPerPage, search);
 
       if (result?.status && Array.isArray(result.data)) {
-        setBudget(result.data);
+        setSalespersons(result.data);
         setTotalCount(result.count || 0);
       } else {
-        setBudget([]);
+        setSalespersons([]);
         setTotalCount(0);
       }
     } catch (error) {
-      console.error("Error fetching Budget:", error);
-      setBudget([]);
+      console.error("Error fetching Sales Persons:", error);
+      setSalespersons([]);
       setTotalCount(0);
     } finally {
       setLoading(false);
@@ -43,9 +52,6 @@ export default function CreatorTable() {
   };
 
   const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
-  const filteredBudget = Budget.filter((p) =>
-    p.budget_name?.toLowerCase().includes(search.toLowerCase())
-  );
 
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -53,255 +59,44 @@ export default function CreatorTable() {
     }
   };
 
-  // 🔹 Inline Row Component
-  const BudgetRow = ({ project }) => {
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const [isEditOpen, setIsEditOpen] = useState(false);
-    const [title, setTitle] = useState(project.budget_name);
-
-    const handleSave = async (e) => {
-      e.preventDefault();
-      try {
-        const data = { guid: project.guid, budget_name: title };
-        const result = await updateBudget(data);
-        if (result.status) {
-          setIsEditOpen(false);
-          fetchBudget();
-        } else {
-          alert("Failed to update budget.");
-        }
-      } catch (error) {
-        console.error("Error updating budget:", error);
+  const handleSave = async (formData) => {
+    try {
+      let result;
+      if (formData.person_id) {
+        // update
+        result = await updateSalesperson(formData);
+      } else {
+        // add
+        result = await addSalesperson(formData);
       }
-    };
 
-    const handleDelete = async () => {
-      try {
-        const result = await deleteBudget({ guid: project.guid });
-        if (result.status === 200) {
-          fetchBudget();
-          setIsDeleteOpen(false);
-        } else {
-          alert("Failed to delete budget.");
-        }
-      } catch (error) {
-        console.error("Error deleting budget:", error);
+      if (result.status) {
+        setIsFormOpen(false);
+        setEditingPerson(null);
+        fetchSalesPerson();
+      } else {
+        alert("Failed to save Sales Person");
       }
-    };
+    } catch (error) {
+      console.error("Error saving Sales Person:", error);
+      alert("Something went wrong!");
+    }
+  };
 
-    return (
-      <>
-        <tr>
-          <td>{project.budget_id}</td>
-          <td>
-            <span className="tag tag-primary">{project.budget_name}</span>
-          </td>
-          <td>
-            <div className="theme-date-list">
-              {getDateTab(project.created_at, "Created At")}
-              {getDateTab(project.updated_at, "Updated At")}
-            </div>
-          </td>
-          <td className="table-actions-wrapper">
-            <div className="table-actions">
-              <a onClick={() => setIsEditOpen(true)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-pencil"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
-                  <path d="M13.5 6.5l4 4"></path>
-                </svg>
-              </a>
-              <a onClick={() => setIsDeleteOpen(true)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-trash"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M4 7l16 0"></path>
-                  <path d="M10 11l0 6"></path>
-                  <path d="M14 11l0 6"></path>
-                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                </svg>
-              </a>
-            </div>
-          </td>
-        </tr>
-
-        {/* Edit Sidebar */}
-        {isEditOpen && (
-          <div className="theme-sidebar theme-sidebar-sm active">
-            <div className="theme-sidebar-card">
-              <div className="theme-sidebar-header">
-                <h5 className="theme-sidebar-title">Edit Budget</h5>
-                <div className="theme-sidebar-action">
-                  <span
-                    className="close-sidebar"
-                    onClick={() => setIsEditOpen(false)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="icon icon-tabler icons-tabler-outline icon-tabler-x"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M18 6l-12 12" />
-                      <path d="M6 6l12 12" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-
-              <div className="theme-sidebar-detail edit-form">
-                <form
-                  className="form"
-                  id="edit-budget-sidebar-form"
-                  onSubmit={handleSave}
-                >
-                  <div className="theme-sidebar-content theme-scrollbar">
-                    <div className="columns is-multiline">
-                      <div className="column is-12 col-form">
-                        <div className="form-group">
-                          <label className="form-label">Budget Name*</label>
-                          <input
-                            type="text"
-                            name="budget_name"
-                            id="edit_budget_name"
-                            className="form-control"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="column is-12 col-form">
-                        <button className="btn btn-primary w-100" type="submit">
-                          Save
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Delete Sidebar */}
-        {isDeleteOpen && (
-          <div
-            id="delete-sidebar"
-            className="theme-sidebar theme-sidebar-sm active"
-          >
-            <div className="theme-sidebar-card">
-              <div className="theme-sidebar-header">
-                <h5 className="theme-sidebar-title">Delete</h5>
-                <div className="theme-sidebar-action">
-                  <span
-                    className="close-sidebar"
-                    onClick={() => setIsDeleteOpen(false)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="icon icon-tabler icons-tabler-outline icon-tabler-x"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M18 6l-12 12" />
-                      <path d="M6 6l12 12" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-
-              <div className="theme-sidebar-detail">
-                <form
-                  className="form"
-                  id="delete-sidebar-form"
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    const inputValue =
-                      document.getElementById("delete-record").value;
-
-                    if (inputValue !== "DELETE") {
-                      alert('Please type "DELETE" to confirm.');
-                      return;
-                    }
-
-                    await handleDelete();
-                  }}
-                >
-                  <div className="theme-sidebar-content theme-scrollbar">
-                    <div className="columns is-multiline">
-                      <div className="column is-12 col-form">
-                        <div className="form-group">
-                          <label className="form-label">
-                            Type "DELETE" in Input Box*
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="delete-record"
-                            placeholder="DELETE"
-                            onChange={(e) =>
-                              (e.target.value = e.target.value.toUpperCase())
-                            }
-                          />
-                        </div>
-                      </div>
-                      <div className="column is-12 col-form">
-                        <input
-                          type="hidden"
-                          name="project_id"
-                          id="delete-id"
-                          value={project.project_id}
-                        />
-                        <button className="btn btn-danger w-100" type="submit">
-                          DELETE
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
-      </>
-    );
+  const handleDelete = async () => {
+    try {
+      if (!deletePerson) return;
+      const result = await deleteSalesperson({ person_id: deletePerson.person_id });
+      if (result.status === 200 || result.status === true) {
+        setIsDeleteOpen(false);
+        setDeletePerson(null);
+        fetchSalesPerson();
+      } else {
+        alert("Failed to delete Sales Person");
+      }
+    } catch (error) {
+      console.error("Error deleting Sales Person:", error);
+    }
   };
 
   return (
@@ -309,12 +104,12 @@ export default function CreatorTable() {
       <div className="px-5 py-4">
         <div className="is-flex is-gap-4 is-align-items-center is-justify-content-space-between">
           <div className="card-title">
-            <h1 className="fs-5 fw-600 lh-1">Creator</h1>
+            <h1 className="fs-5 fw-600 lh-1">Sales Person</h1>
             <ul className="breadcrumbs mt-1">
               <li>
                 <a href="/masters">Masters</a>
               </li>
-              <li className="active">Creator</li>
+              <li className="active">Sales Person</li>
             </ul>
           </div>
           <div className="is-flex is-align-items-center is-justify-content-end is-gap-3">
@@ -330,7 +125,10 @@ export default function CreatorTable() {
             />
             <button
               className="btn btn-primary"
-              onClick={() => setIsAddOpen(true)}
+              onClick={() => {
+                setEditingPerson(null); // fresh add
+                setIsFormOpen(true);
+              }}
             >
               Add
             </button>
@@ -344,8 +142,8 @@ export default function CreatorTable() {
           <div className="card-body p-5">
             {loading ? (
               <p>Loading...</p>
-            ) : filteredBudget.length === 0 ? (
-              <p>No Budget found</p>
+            ) : salespersons.length === 0 ? (
+              <p>No Sales Person found</p>
             ) : (
               <div className="text-nowrap theme-scrollbar-horizontal">
                 <table className="theme-table">
@@ -353,13 +151,93 @@ export default function CreatorTable() {
                     <tr>
                       <th>ID</th>
                       <th>Name</th>
+                      <th>Mobile</th>
+                      <th>Email</th>
                       <th>Date</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredBudget.map((p) => (
-                      <BudgetRow key={p.guid || p.budget_id} project={p} />
+                    {salespersons.map((person) => (
+                      <tr key={person.person_id}>                       
+                        <td>{person.person_id}</td>
+                         <td>
+                          <div className="tag-rounded-wrapper">
+                            <div className="tag-rounded tag-rounded-gray">
+                              <span className="avatar avatar-md mw-unset">
+                                {getNameAvtarSingle(person?.person_name || "-")}
+                              </span>
+                              <div>
+                                <b>
+                                  {capitalizeFirstLetter(person.person_name) || "-"}{" "}
+                                  {/* {capitalizeFirstLetter(person.last_name) || "-"} */}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                        </td>                        
+                        <td>{person.person_mobile}</td>
+                        <td>{person.person_email}</td>
+                        <td>
+                          <div className="theme-date-list">
+                            {getDateTab(person.created_at, "Created At")}
+                            {getDateTab(person.updated_at, "Updated At")}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="table-actions">
+                            <a
+                              onClick={() => {
+                                setEditingPerson(person);
+                                setIsFormOpen(true);
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-pencil"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+                                <path d="M13.5 6.5l4 4"></path>
+                              </svg>
+                            </a>
+                            <a
+                              onClick={() => {
+                                setDeletePerson(person);
+                                setIsDeleteOpen(true);
+                              }}
+                            >
+                               <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-trash"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 7l16 0"></path>
+                                <path d="M10 11l0 6"></path>
+                                <path d="M14 11l0 6"></path>
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                              </svg>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
                     ))}
                   </tbody>
                 </table>
@@ -378,77 +256,165 @@ export default function CreatorTable() {
         </div>
       </div>
 
-      {/* Add Sidebar */}
-      {isAddOpen && (
-        <div className="theme-sidebar theme-sidebar-sm active">
-          <div className="theme-sidebar-card">
-            <div className="theme-sidebar-header">
-              <h5 className="theme-sidebar-title">Add Budget</h5>
-              <div className="theme-sidebar-action">
-                <span
-                  className="close-sidebar"
-                  onClick={() => setIsAddOpen(false)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="icon icon-tabler icons-tabler-outline icon-tabler-x"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </div>
-            </div>
+      {/* Add / Edit Sidebar */}
+      {isFormOpen && (
+        <SalesPersonForm
+          initialData={editingPerson}
+          onClose={() => {
+            setIsFormOpen(false);
+            setEditingPerson(null);
+          }}
+          onSave={handleSave}
+        />
+      )}
 
-            <div className="theme-sidebar-detail add-form">
-              <form
-                className="form"
-                id="add-budget-sidebar-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const budgetName =
-                    document.getElementById("budget_name").value;
-                  console.log("Add Budget:", budgetName);
-                  // Call API to add budget here
-                  setIsAddOpen(false); // close sidebar after submit
-                  fetchBudget(); // refresh table
-                }}
-              >
-                <div className="theme-sidebar-content theme-scrollbar">
-                  <div className="columns is-multiline">
-                    <div className="column is-12 col-form">
-                      <div className="form-group">
-                        <label className="form-label">Budget Name*</label>
-                        <input
-                          type="text"
-                          name="budget_name"
-                          id="budget_name"
-                          className="form-control"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="column is-12 col-form">
-                      <button className="btn btn-primary w-100" type="submit">
-                        Submit
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+      {/* Delete Sidebar */}
+      {isDeleteOpen && (
+        <DeleteConfirm
+          onClose={() => {
+            setIsDeleteOpen(false);
+            setDeletePerson(null);
+          }}
+          onConfirm={handleDelete}
+        />
       )}
     </MasterLayout>
   );
 }
+
+/* ---------------- Form Component ---------------- */
+const SalesPersonForm = ({ initialData, onClose, onSave }) => {
+  const [form, setForm] = useState({
+    person_id: initialData?.person_id || null,
+    person_name: initialData?.person_name || "",
+    person_mobile: initialData?.person_mobile || "",
+    person_email: initialData?.person_email || "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(form);
+  };
+
+  return (
+    <div className="theme-sidebar theme-sidebar-sm active">
+      <div className="theme-sidebar-card">
+        <div className="theme-sidebar-header">
+          <h5 className="theme-sidebar-title">
+            {form.person_id ? "Edit Sales Person" : "Add Sales Person"}
+          </h5>
+          <div className="theme-sidebar-action">
+            <span className="close-sidebar" onClick={onClose}>
+              ✖
+            </span>
+          </div>
+        </div>
+
+        <div className="theme-sidebar-detail">
+          <form className="form" onSubmit={handleSubmit}>
+            <div className="theme-sidebar-content theme-scrollbar">
+              <div className="columns is-multiline">
+                <div className="column is-12 col-form">
+                  <label className="form-label">Name*</label>
+                  <input
+                    type="text"
+                    name="person_name"
+                    className="form-control"
+                    value={form.person_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="column is-12 col-form">
+                  <label className="form-label">Mobile*</label>
+                  <input
+                    type="text"
+                    name="person_mobile"
+                    className="form-control"
+                    value={form.person_mobile}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="column is-12 col-form">
+                  <label className="form-label">Email*</label>
+                  <input
+                    type="email"
+                    name="person_email"
+                    className="form-control"
+                    value={form.person_email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="column is-12 col-form">
+                  <button className="btn btn-primary w-100" type="submit">
+                    {form.person_id ? "Save Changes" : "Add"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ---------------- Delete Component ---------------- */
+const DeleteConfirm = ({ onClose, onConfirm }) => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (inputValue !== "DELETE") {
+      alert('Please type "DELETE" to confirm.');
+      return;
+    }
+    onConfirm();
+  };
+
+  return (
+    <div className="theme-sidebar theme-sidebar-sm active">
+      <div className="theme-sidebar-card">
+        <div className="theme-sidebar-header">
+          <h5 className="theme-sidebar-title">Delete</h5>
+          <div className="theme-sidebar-action">
+            <span className="close-sidebar" onClick={onClose}>
+              ✖
+            </span>
+          </div>
+        </div>
+
+        <div className="theme-sidebar-detail">
+          <form onSubmit={handleSubmit}>
+            <div className="theme-sidebar-content theme-scrollbar">
+              <div className="columns is-multiline">
+                <div className="column is-12 col-form">
+                  <label className="form-label">
+                    Type "DELETE" to confirm
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value.toUpperCase())}
+                  />
+                </div>
+                <div className="column is-12 col-form">
+                  <button className="btn btn-danger w-100" type="submit">
+                    DELETE
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
