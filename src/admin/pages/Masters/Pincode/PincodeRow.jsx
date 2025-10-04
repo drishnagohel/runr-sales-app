@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateConfiguration, deleteProject } from "../../../../api";
+import { updateConfiguration, deleteSalesperson } from "../../../../api";
 import { getDateTab, Textcapitalize, getNameAvtarSingle } from "../../../../utils";
 
 
@@ -58,7 +58,7 @@ export default function ProjectRow({ project, refreshProjects }) {
   
   const handleDelete = async () => {
     try {
-      const result = await deleteProject({ project_id: project.project_id });
+      const result = await deleteSalesperson({ project_id: project.project_id });
       if (result.status) {
         
         closeDelete();

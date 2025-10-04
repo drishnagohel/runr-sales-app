@@ -28,7 +28,7 @@ const MasterPage = () => {
     <div class="column col-master">
       <div class="card master-card">
         <div class="card-body">
-          <a href="">
+          <a href="salesperson">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>

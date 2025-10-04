@@ -9,6 +9,7 @@ import AdminProject from "../admin/pages/Sales/SalesTable";
 import AdminPincode from "../admin/pages/Masters/Pincode/PincodeTable";
 import AdminAmenityCategory from "../admin/pages/Masters/AmenityCategory/AmenityCategoryTable";
 import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";
+import AdminSalesperson from "../admin/pages/Masters/Salesperson/SalespersonTable";
 import AdminBudget from "../admin/pages/Masters/Budget/BudgetTable";
 import AdminLead from "../admin/pages/Lead/LeadTable";
 import ProtectedRoute from "../admin/components/ProtectedRoute"; // adjust path
@@ -72,6 +73,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdminAmenityCategory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/salesperson"
+          element={
+            <ProtectedRoute>
+              <AdminSalesperson />
             </ProtectedRoute>
           }
         />

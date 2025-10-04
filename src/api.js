@@ -26,39 +26,37 @@ export const login = async (data) => {
   return response.data;
 };
 
-// Add Project
-export const addProject = async (data) => {
-  const response = await axios.post(`${API_URL}/addproject`, data);
+
+// Add Salesperson
+export const addSalesperson = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/addsalesperson`, data);
   return response.data;
 };
-// export const getAllProjects = async () => {
-//   const response = await axios.post(`${API_URL}/getallproject`);
-//   return response.data; // contains {status, count, data}
-// };
-// api.js
-export const getAllProjects = async (offset = 0, limit = 5, search = "") => {
+
+export const getAllSalesperson = async (offset = 0, limit = 5, search = "") => {
   try {
-    const response = await axios.post(`${API_URL}/getallproject`, {
+    const response = await axios.post(`${API_URL_SALES}/getallsalesperson`, {
       offset,
       limit,
       search,
     });
 
-    return response.data; // { status, count, data }
+    return response.data; 
   } catch (error) {
     console.error("API Error:", error);
     return { status: false, data: [], count: 0 };
   }
 };
 
-export const updateProject = async (data) => {
-  const response = await axios.post(`${API_URL}/updateproject`, data);
+export const updateSalesperson = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/updatesalesperson`, data);
   return response.data;
 };
-export const deleteProject = async (data) => {
-  const response = await axios.post(`${API_URL}/deleteproject`, data);
+export const deleteSalesperson = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/deletesalesperson`, data);
   return response.data;
 };
+
 
 // Add Project
 export const addLead = async (data) => {
