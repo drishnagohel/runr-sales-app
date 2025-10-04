@@ -3872,5 +3872,20 @@ html.active-modal,
   border-top: 1px solid;
   border-color: var(--gray-200);
 }
+.is-invalid {
+  border-color: red !important;
+}
+.error-text {
+  font-size: 11px;
+  line-height: 16px;
+  padding: 2px 8px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  background-color: var(--danger-color);
+  color: #ffffff;
+  display: inline-block;
+  margin-top: 4px;
+}
+
 
 /*** End Modal ***/

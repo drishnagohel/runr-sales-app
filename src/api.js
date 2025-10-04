@@ -21,12 +21,41 @@ export const deleteConfiguration = async (data) => {
   const response = await axios.post(`${API_URL}/deleteconfiguration`, data);
   return response.data;
 };
+
+// Login 
 export const login = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/login`, data);
   return response.data;
 };
 
+// Creator
+export const getAllCreator = async (offset = 0, limit = 5, search = "") => {
+  try {
+    const response = await axios.post(`${API_URL_SALES}/getallcreator`, {
+      offset,
+      limit,
+      search,
+    });
 
+    return response.data; 
+    console.log(response.data);
+    
+  } catch (error) {
+    return { status: false, data: [], count: 0 };
+  }
+};
+export const addCreator = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/addcreator`, data);
+  return response.data;
+};
+export const updateCreator = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/updatecreator`, data);
+  return response.data;
+};
+export const deleteCreator = async (data) => {
+  const response = await axios.post(`${API_URL_SALES}/deletecreator`, data);
+  return response.data;
+};
 // Add Salesperson
 export const addSalesperson = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/addsalesperson`, data);
