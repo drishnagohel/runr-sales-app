@@ -55,7 +55,7 @@ const Menu = () => {
             </svg>
           </span>
           <span class="menu-title">Sales</span>
-          <span class="tag bg-primary white-text rounded-pill">11</span>
+          {/* <span class="tag bg-primary white-text rounded-pill">11</span> */}
         </a>
       </div>      
       <div class="menu-item">
