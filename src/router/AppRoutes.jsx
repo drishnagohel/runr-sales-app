@@ -5,14 +5,10 @@ import AdminDashboard from "../admin/pages/Dashboard";
 import AdminMasterPage from "../admin/pages/MasterPage";
 import AdminUserProfile from "../admin/pages/UserProfile";
 import AdminLogin from "../admin/pages/Login";
-import AdminProject from "../admin/pages/Sales/SalesTable";
-import AdminPincode from "../admin/pages/Masters/Pincode/PincodeTable";
-import AdminAmenityCategory from "../admin/pages/Masters/AmenityCategory/AmenityCategoryTable";
+import AdminSales from "../admin/pages/Sales/SalesTable";
 import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";
 import AdminSalesperson from "../admin/pages/Masters/Salesperson/SalespersonTable";
 import AdminSMM from "../admin/pages/Masters/SMM/SMMTable";
-import AdminBudget from "../admin/pages/Masters/Budget/BudgetTable";
-import AdminLead from "../admin/pages/Lead/LeadTable";
 import ProtectedRoute from "../admin/components/ProtectedRoute"; // adjust path
 
 export default function AppRoutes() {
@@ -36,23 +32,15 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<AdminLogin />} />        
         <Route
-          path="/project"
+          path="/sales"
           element={
             <ProtectedRoute>
-              <AdminProject />
+              <AdminSales />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/lead"
-          element={
-            <ProtectedRoute>
-              <AdminLead />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<AdminLogin />} />                        
         <Route
           path="/userprofile"
           element={
@@ -60,23 +48,7 @@ export default function AppRoutes() {
               <AdminUserProfile />
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/pincodes"
-          element={
-            <ProtectedRoute>
-              <AdminPincode />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/amenitycategory"
-          element={
-            <ProtectedRoute>
-              <AdminAmenityCategory />
-            </ProtectedRoute>
-          }
-        />
+        />                
         <Route
           path="/salesperson"
           element={
@@ -100,15 +72,7 @@ export default function AppRoutes() {
               <AdminCreator />
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/budget"
-          element={
-            <ProtectedRoute>
-              <AdminBudget />
-            </ProtectedRoute>
-          }
-        />
+        />        
       </Routes>
     </Router>
   );
