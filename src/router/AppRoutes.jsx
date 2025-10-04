@@ -8,6 +8,7 @@ import AdminLogin from "../admin/pages/Login";
 import AdminSales from "../admin/pages/Sales/SalesTable";
 import AdminCreator from "../admin/pages/Masters/Creator/CreatorTable";
 import AdminSalesperson from "../admin/pages/Masters/Salesperson/SalespersonTable";
+import AdminClient from "../admin/pages/Masters/Client/ClientTable";
 import AdminSMM from "../admin/pages/Masters/SMM/SMMTable";
 import ProtectedRoute from "../admin/components/ProtectedRoute"; // adjust path
 
@@ -62,6 +63,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdminSMM />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/client"
+          element={
+            <ProtectedRoute>
+              <AdminClient />
             </ProtectedRoute>
           }
         />
