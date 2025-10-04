@@ -38,6 +38,27 @@ export const deleteCreator = async (data) => {
   const response = await axios.post(`${API_URL_SALES}/deletecreator`, data);
   return response.data;
 };
+// Charts
+export const getCreatorChart = async () => {
+  const response = await axios.post(`${API_URL_SALES}/getCreatorChartData`);
+  return response.data; // contains {status, count, data}
+};
+export const getSalesPersonChart = async () => {
+  const response = await axios.post(`${API_URL_SALES}/getSalespersonChartData`);
+  return response.data; // contains {status, count, data}
+};
+export const getSalesMangerChart = async () => {
+  const response = await axios.post(`${API_URL_SALES}/getSalesmanagerChartData`);
+  return response.data; // contains {status, count, data}
+};
+export const getClientChart = async () => {
+  const response = await axios.post(`${API_URL_SALES}/getClientChartData`);
+  return response.data; // contains {status, count, data}
+};
+export const getSalesChart = async () => {
+  const response = await axios.post(`${API_URL_SALES}/getSalesChartData`);
+  return response.data; // contains {status, count, data}
+};
 
 // Add Salesperson
 export const addSalesperson = async (data) => {
