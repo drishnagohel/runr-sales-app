@@ -47,9 +47,18 @@ export function Textcapitalize(string = "") {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
+
 export function getNameAvtarSingle(name = "NA") {
   name = name.trim();
-  if (name.length === 0) name = "NA";
+  if (!name) name = "NA";
   const chr = name.charAt(0).toUpperCase();
-  return `<span class='user-name-latter latter-${chr.toLowerCase()}'>${chr}</span>`;
+  return <span className={`user-name-latter latter-${chr.toLowerCase()}`}>{chr}</span>;
 }
+
+export function capitalizeFirstLetter(str = "") {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+
+
