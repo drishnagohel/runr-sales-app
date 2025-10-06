@@ -302,4 +302,18 @@ export const TotalCount = async (data) => {
   return response.data;
 };
 
+// export const Getallclientselect2 = async (data) => {
+//   const response = await axios.post(`${API_URL_SALES}/getallclientselect2`, data);
+//   return response.data;
+// };
+
+export const Getallclientselect2 = async (search = "") => {
+  try {
+    const response = await axios.post(`${API_URL_SALES}/getallclientselect2`, { search });
+    return response.data; // [{ client_id, client_name }, ...]
+  } catch (err) {
+    console.error("API error:", err);
+    return [];
+  }
+};
 

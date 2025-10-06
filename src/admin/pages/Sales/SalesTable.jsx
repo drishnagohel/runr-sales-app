@@ -1,6 +1,7 @@
   import React, { useState, useEffect } from "react";
   import MasterLayout from "../../components/layout/MasterLayout";
   import Pagination from "../../components/Pagination";
+  import AsyncSelect from "react-select/async";
   import {
     getAllSales,
     addSales,
@@ -10,6 +11,7 @@
     getAllParson,
     getAllCreatorDropdown,
     getAllClientDropdown,
+    Getallclientselect2,
   } from "../../../api";
   import { getDateTab, getNameAvtarSingle, capitalizeFirstLetter } from "../../../utils";
 
@@ -235,10 +237,10 @@
                             <div className="tag-rounded-wrapper">
                               <div className="tag-rounded tag-rounded-gray">
                                 <span className="avatar avatar-md mw-unset">
-                                  {getNameAvtarSingle(person?.creator_name || "-")}
+                                  {getNameAvtarSingle(person?.client_name || "-")}
                                 </span>
                                 <div>
-                                  <b>{capitalizeFirstLetter(person.creator_name) || "-"}</b>
+                                  <b>{capitalizeFirstLetter(person.client_name) || "-"}</b>
                                 </div>
                               </div>
                             </div>
@@ -414,6 +416,25 @@
       e.preventDefault();
       onSave(form);
     };
+    // ✅ Correct version
+     const loadClientOptions = async (inputValue = "") => {
+      try {
+        // Your API returns [{ id, text }]
+        const response = await Getallclientselect2(inputValue);
+
+        if (Array.isArray(response)) {
+          return response.map((item) => ({
+            value: item.id,
+            label: item.text,
+          }));
+        }
+
+        return [];
+      } catch (err) {
+        console.error("Error fetching client options:", err);
+        return [];
+      }
+    };
 
     return (
       <div className="theme-sidebar theme-sidebar-sm active">
@@ -467,6 +488,33 @@
                     </select>
                   </div>
                   <div className="column is-12 col-form">
+                    <label className="form-label">Select Client*</label>
+                    <AsyncSelect
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={loadClientOptions} // 👈 loads options from your API
+                      onChange={(selectedOption) =>
+                        setForm({
+                          ...form,
+                          client: selectedOption ? selectedOption.value : "",
+                        })
+                      }
+                      value={
+                        form.client
+                          ? {
+                              value: form.client,
+                              label:
+                                clientName.find((c) => c.client_id === form.client)?.client_name ||
+                                form.client,
+                            }
+                          : null
+                      }
+                      placeholder="Search or select a client"
+                    />
+                  </div>
+
+
+                  <div className="column is-12 col-form">
                     <label className="form-label">Select Creator*</label>
                     <select
                       name="creator"
@@ -483,7 +531,7 @@
                       ))}
                     </select>
                   </div>
-                  <div className="column is-12 col-form">
+                  {/* <div className="column is-12 col-form">
                     <label className="form-label">Select Client*</label>
                     <select
                       name="client"
@@ -499,7 +547,7 @@
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                   <div className="column is-12 col-form">
                     <label className="form-label">Sales Date*</label>
                     <input
